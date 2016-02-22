@@ -10,14 +10,22 @@ public class WoordenTeller {
     private String input;
     private String[] words;
     private HashMap<String, Integer> occurences;
-    private final static String seperator = "\n";
+    private final static String seperator = " ";
+
+    public String getInput() {
+        return input;
+    }
 
     public WoordenTeller(String input) {
         // init
         occurences = new HashMap<>();
 
-        // concat input
-        //input = input.replace("\n", ",");
+        // sanitize input
+        input = input.replace("\n", " ");
+        input = input.replace(".", "");
+        input = input.replace(",", "");
+
+        this.input = input;
 
         words = input.split(seperator);
 

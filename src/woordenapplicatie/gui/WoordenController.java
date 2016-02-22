@@ -69,8 +69,14 @@ public class WoordenController implements Initializable {
         teller = new WoordenTeller(taInput.getText());
     }
 
+    private void resetTeller(){
+        if(!teller.getInput().equals(taInput.getText()))
+            teller = new WoordenTeller(taInput.getText());
+    }
+
     @FXML
     private void aantalAction(ActionEvent event) {
+        resetTeller();
         int totalWords = teller.GetTotalWordCount();
         int uniqueWords = teller.GetUniqueWordCount();
 
@@ -79,20 +85,23 @@ public class WoordenController implements Initializable {
 
     @FXML
     private void sorteerAction(ActionEvent event) {
+        resetTeller();
         taOutput.setText(teller.GetReversedWordOrder().stream().reduce((x, y) -> x + "\n" + y).get());
     }
 
     @FXML
     private void frequentieAction(ActionEvent event) {
+        resetTeller();
         taOutput.setText(teller.GetWordCount().keySet().stream().reduce((x, y) -> x + "\n" + String.format("%s: %d", y, teller.GetWordCount().get(y))).get());
     }
 
     @FXML
     private void concordatieAction(ActionEvent event) {
+        resetTeller();
         Map<String, Set<Integer>> stringSetMap = teller.GetConcondances();
         StringBuilder stringBuilder = new StringBuilder();
 
-        for(String word: stringSetMap.keySet()){
+        for (String word : stringSetMap.keySet()) {
             stringBuilder.append(String.format("%s: %s\n", word, stringSetMap.get(word)));
         }
 
