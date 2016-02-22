@@ -7,14 +7,15 @@ package woordenapplicatie.gui;
  */
 
 
-
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import woordenapplicatie.WoordenTeller;
 
 /**
  * FXML Controller class
@@ -22,27 +23,27 @@ import javafx.scene.control.TextArea;
  * @author frankcoenen
  */
 public class WoordenController implements Initializable {
-    
-   private static final String DEFAULT_TEXT =   "Een, twee, drie, vier\n" +
-                                                "Hoedje van, hoedje van\n" +
-                                                "Een, twee, drie, vier\n" +
-                                                "Hoedje van papier\n" +
-                                                "\n" +
-                                                "Heb je dan geen hoedje meer\n" +
-                                                "Maak er één van bordpapier\n" +
-                                                "Eén, twee, drie, vier\n" +
-                                                "Hoedje van papier\n" +
-                                                "\n" +
-                                                "Een, twee, drie, vier\n" +
-                                                "Hoedje van, hoedje van\n" +
-                                                "Een, twee, drie, vier\n" +
-                                                "Hoedje van papier\n" +
-                                                "\n" +
-                                                "En als het hoedje dan niet past\n" +
-                                                "Zetten we 't in de glazenkas\n" +
-                                                "Een, twee, drie, vier\n" +
-                                                "Hoedje van papier";
-    
+
+    private static final String DEFAULT_TEXT = "Een, twee, drie, vier\n" +
+            "Hoedje van, hoedje van\n" +
+            "Een, twee, drie, vier\n" +
+            "Hoedje van papier\n" +
+            "\n" +
+            "Heb je dan geen hoedje meer\n" +
+            "Maak er één van bordpapier\n" +
+            "Eén, twee, drie, vier\n" +
+            "Hoedje van papier\n" +
+            "\n" +
+            "Een, twee, drie, vier\n" +
+            "Hoedje van, hoedje van\n" +
+            "Een, twee, drie, vier\n" +
+            "Hoedje van papier\n" +
+            "\n" +
+            "En als het hoedje dan niet past\n" +
+            "Zetten we 't in de glazenkas\n" +
+            "Een, twee, drie, vier\n" +
+            "Hoedje van papier";
+
     @FXML
     private Button btAantal;
     @FXML
@@ -56,29 +57,36 @@ public class WoordenController implements Initializable {
     @FXML
     private TextArea taOutput;
 
+    private WoordenTeller teller;
+
     @Override
+
     public void initialize(URL location, ResourceBundle resources) {
         taInput.setText(DEFAULT_TEXT);
+        teller = new WoordenTeller(taInput.getText());
     }
-    
+
     @FXML
     private void aantalAction(ActionEvent event) {
-         throw new UnsupportedOperationException("Not supported yet."); 
+        int totalWords = teller.GetTotalWordCount();
+        int uniqueWords = teller.GetUniqueWordCount();
+
+        taOutput.setText(String.format("Totaal aantal woorden: %d\nTotaal aantal unieke woorden: %d", totalWords, uniqueWords));
     }
 
     @FXML
     private void sorteerAction(ActionEvent event) {
-         throw new UnsupportedOperationException("Not supported yet."); 
+        taOutput.setText(teller.GetReversedWordOrder().stream().reduce((x, y) -> x + "\n" + y).get());
     }
 
     @FXML
     private void frequentieAction(ActionEvent event) {
-         throw new UnsupportedOperationException("Not supported yet."); 
+        taOutput.setText(teller.getWordCount().keySet().stream().reduce((x, y) -> x + "\n" + String.format("%s: %d", y, teller.getWordCount().get(y))).get());
     }
 
     @FXML
     private void concordatieAction(ActionEvent event) {
-         throw new UnsupportedOperationException("Not supported yet."); 
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-   
+
 }
