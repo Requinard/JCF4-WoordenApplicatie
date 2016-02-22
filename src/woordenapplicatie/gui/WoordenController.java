@@ -8,10 +8,7 @@ package woordenapplicatie.gui;
 
 
 import java.net.URL;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.StringJoiner;
+import java.util.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -69,8 +66,8 @@ public class WoordenController implements Initializable {
         teller = new WoordenTeller(taInput.getText());
     }
 
-    private void resetTeller(){
-        if(!teller.getInput().equals(taInput.getText()))
+    private void resetTeller() {
+        if (!teller.getInput().equals(taInput.getText()))
             teller = new WoordenTeller(taInput.getText());
     }
 
@@ -92,7 +89,15 @@ public class WoordenController implements Initializable {
     @FXML
     private void frequentieAction(ActionEvent event) {
         resetTeller();
-        taOutput.setText(teller.GetWordCount().keySet().stream().reduce((x, y) -> x + "\n" + String.format("%s: %d", y, teller.GetWordCount().get(y))).get());
+
+        StringBuilder builder = new StringBuilder();
+        HashMap<String, Integer> stringIntegerHashMap = teller.GetWordCount();
+
+        for(String word: stringIntegerHashMap.keySet()){
+            builder.append(String.format("%s: %d\n", word, stringIntegerHashMap.get(word)));
+        }
+
+       taOutput.setText(builder.toString());
     }
 
     @FXML
