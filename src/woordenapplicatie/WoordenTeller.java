@@ -8,6 +8,7 @@ import java.util.*;
  */
 public class WoordenTeller {
     private String input;
+    private String[] words;
     private HashMap<String, Integer> occurences;
     private final static String seperator = "\n";
 
@@ -17,6 +18,8 @@ public class WoordenTeller {
 
         // concat input
         //input = input.replace("\n", ",");
+
+        words = input.split(seperator);
 
         // Split
         for (String word : input.split(seperator)) {
@@ -61,7 +64,24 @@ public class WoordenTeller {
         return collection;
     }
 
-    public HashMap<String, Integer> getWordCount() {
+    public HashMap<String, Integer> GetWordCount() {
         return occurences;
+    }
+
+    public Map<String, Set<Integer>> GetConcondances() {
+        Map<String, Set<Integer>> concordance = new HashMap<String, Set<Integer>>();
+
+        for (int i = 0; i < words.length; i++) {
+            String s = words[i];
+            if (s.isEmpty())
+                continue;
+            if (!concordance.containsKey(s)) {
+                concordance.put(s, new HashSet<>());
+            }
+            Set<Integer> set = concordance.get(s);
+            set.add(i);
+        }
+
+        return concordance;
     }
 }

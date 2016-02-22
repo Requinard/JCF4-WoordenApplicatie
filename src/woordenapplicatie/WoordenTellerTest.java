@@ -2,7 +2,6 @@ package woordenapplicatie;
 
 import org.junit.Before;
 import org.junit.Test;
-import woordenapplicatie.gui.WoordenController;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -63,8 +62,13 @@ public class WoordenTellerTest {
 
     @Test
     public void testGetWordCount() throws Exception {
-        HashMap<String, Integer> wordCount = teller.getWordCount();
+        HashMap<String, Integer> wordCount = teller.GetWordCount();
 
         assertTrue(wordCount.get("Een, twee, drie, vier") == 6);
+    }
+
+    @Test
+    public void testGetConcondances() throws Exception {
+        System.out.println(teller.GetConcondances());
     }
 }

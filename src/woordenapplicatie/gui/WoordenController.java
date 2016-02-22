@@ -8,7 +8,10 @@ package woordenapplicatie.gui;
 
 
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.StringJoiner;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -81,12 +84,19 @@ public class WoordenController implements Initializable {
 
     @FXML
     private void frequentieAction(ActionEvent event) {
-        taOutput.setText(teller.getWordCount().keySet().stream().reduce((x, y) -> x + "\n" + String.format("%s: %d", y, teller.getWordCount().get(y))).get());
+        taOutput.setText(teller.GetWordCount().keySet().stream().reduce((x, y) -> x + "\n" + String.format("%s: %d", y, teller.GetWordCount().get(y))).get());
     }
 
     @FXML
     private void concordatieAction(ActionEvent event) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Map<String, Set<Integer>> stringSetMap = teller.GetConcondances();
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for(String word: stringSetMap.keySet()){
+            stringBuilder.append(String.format("%s: %s\n", word, stringSetMap.get(word)));
+        }
+
+        taOutput.setText(stringBuilder.toString());
     }
 
 }
