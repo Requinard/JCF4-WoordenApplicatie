@@ -2,6 +2,8 @@ package woordenapplicatie;
 
 import java.text.Normalizer;
 import java.util.*;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Created by david on 2/22/16.
@@ -37,7 +39,7 @@ public class WoordenTeller {
     }
 
     private int addOccurence(String word) {
-        String normalized = Normalizer.normalize(word, Normalizer.Form.NFD);
+        String normalized = Normalizer.normalize(word, Normalizer.Form.NFKC);
         if (occurences.containsKey(normalized)) {
             occurences.put(normalized, occurences.get(normalized) + 1);
         } else {
@@ -74,6 +76,16 @@ public class WoordenTeller {
 
     public HashMap<String, Integer> GetWordCount() {
         return occurences;
+    }
+
+    public Map<String, Integer> GetOrderedWordCount() {
+        Map<String, Integer> result = new LinkedHashMap<>();
+        Stream<Map.Entry<String, Integer>> st = occurences.entrySet().stream();
+
+        st.sorted(Comparator.comparing(e -> 0-e.getValue()))
+                .forEachOrdered(e -> result.put(e.getKey(), e.getValue()));
+
+        return result;
     }
 
     public Map<String, Set<Integer>> GetConcondances() {

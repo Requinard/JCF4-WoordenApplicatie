@@ -83,34 +83,42 @@ public class WoordenController implements Initializable {
     @FXML
     private void sorteerAction(ActionEvent event) {
         resetTeller();
-        taOutput.setText(teller.GetReversedWordOrder().stream().reduce((x, y) -> x + "\n" + y).get());
+        taOutput.setText(teller.GetReversedWordOrder()
+                .stream()
+                .reduce((x, y) -> x + "\n" + y)
+                .get()
+        );
     }
 
     @FXML
     private void frequentieAction(ActionEvent event) {
         resetTeller();
 
-        StringBuilder builder = new StringBuilder();
-        HashMap<String, Integer> stringIntegerHashMap = teller.GetWordCount();
+        Map<String, Integer> stringIntegerHashMap = teller.GetOrderedWordCount();
 
-        for(String word: stringIntegerHashMap.keySet()){
-            builder.append(String.format("%s: %d\n", word, stringIntegerHashMap.get(word)));
-        }
+        taOutput.setText(stringIntegerHashMap
+                .keySet()
+                .stream()
+                .map(x -> String.format("%s: %d", x, stringIntegerHashMap.get(x)))
+                .reduce((x, y) -> x + "\n" + y)
+                .get()
+        );
 
-       taOutput.setText(builder.toString());
     }
 
     @FXML
     private void concordatieAction(ActionEvent event) {
         resetTeller();
         Map<String, Set<Integer>> stringSetMap = teller.GetConcondances();
-        StringBuilder stringBuilder = new StringBuilder();
 
-        for (String word : stringSetMap.keySet()) {
-            stringBuilder.append(String.format("%s: %s\n", word, stringSetMap.get(word)));
-        }
-
-        taOutput.setText(stringBuilder.toString());
+        taOutput.setText(
+                stringSetMap
+                        .keySet()
+                        .stream()
+                        .map(x -> String.format("%s: %s", x, stringSetMap.get(x)))
+                        .reduce((x, y) -> x + "\n" + y)
+                        .get()
+        );
     }
 
 }
